@@ -1,11 +1,24 @@
+import { useEffect } from "react"
+import Aos from "aos"
+import "aos/dist/aos.css"
+
 import styles from "../styles/Experiences.module.css"
 
 export default function Experiences() {
+  useEffect(() => {
+    Aos.init({ duration: 600 })
+  }, [])
   return (
     <div className={styles.container}>
       <div className={styles.wrapped}>
-        <span className={styles.header}>Experiences</span>
-        <div className={styles.expRow}>
+        <span data-aos='fade-down' className={styles.header}>
+          Experiences
+        </span>
+        <div
+          data-aos='fade-right'
+          data-aos-duration='600'
+          className={styles.expRow}
+        >
           <div className={styles.left}>
             <img src='gb-logo.jpg' className={styles.logo} />
           </div>
@@ -20,7 +33,11 @@ export default function Experiences() {
             <li>April 2020 - Febuary 2021</li>
           </ul>
         </div>
-        <div className={styles.expRow}>
+        <div
+          data-aos='fade-right'
+          data-aos-duration='600'
+          className={styles.expRow}
+        >
           <div className={styles.left}>
             <img src='stell-logo.png' className={styles.logo} />
           </div>
@@ -31,7 +48,11 @@ export default function Experiences() {
             <li>August 2020 - November 2020</li>
           </ul>
         </div>
-        <div className={styles.expRow}>
+        <div
+          data-aos='fade-right'
+          data-aos-duration='900'
+          className={styles.expRow}
+        >
           <div className={styles.left}>
             <img src='elect-logo.jpg' className={styles.logo} />
           </div>
@@ -44,7 +65,11 @@ export default function Experiences() {
             <li>Febuary 2020 - Febuary 2021</li>
           </ul>
         </div>
-        <div className={styles.expRow}>
+        <div
+          data-aos='fade-right'
+          data-aos-duration='1200'
+          className={styles.expRow}
+        >
           <div className={styles.left}>
             <img src='pu-logo.png' className={styles.logo} />
           </div>
@@ -56,7 +81,11 @@ export default function Experiences() {
             <li>Febuary 2020 - August 2020</li>
           </ul>
         </div>
-        <div className={styles.expRow}>
+        <div
+          data-aos='fade-right'
+          data-aos-duration='1500'
+          className={styles.expRow}
+        >
           <div className={styles.left}>
             <img src='ypp-logo.jpeg' className={styles.logo} />
           </div>
@@ -69,7 +98,11 @@ export default function Experiences() {
             <li>March 2018 - August 2018</li>
           </ul>
         </div>
-        <div className={styles.expRow}>
+        <div
+          data-aos='fade-right'
+          data-aos-duration='1800'
+          className={styles.expRow}
+        >
           <div className={styles.left}>
             <img src='dev-network-logo.png' className={styles.logo} />
           </div>
