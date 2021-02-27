@@ -15,9 +15,11 @@ export default function Home() {
   }, [])
   return (
     <div>
+      <div data-aos='fade-up' className={styles.circle1} />
+      <div data-aos='fade-down' className={styles.circle2} />
       <div className={styles.landing}>
         <Head>
-          <title>GAИG Portfolio</title>
+          <title>Kantapat C.</title>
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div data-aos='fade-up' className={styles.svgWrapper}>

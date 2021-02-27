@@ -87,6 +87,15 @@ export default function Project() {
             <img src='senate.png' className={styles.img} />
             <div className={styles.detail}>View</div>
           </div>
+          <div
+            data-aos='zoom-out'
+            data-aos-duration='600'
+            className={styles.card}
+            onClick={() => open("https://elect.in.th/once-we-voted-yes/")}
+          >
+            <img src='yote-yes.png' className={styles.img} />
+            <div className={styles.detail}>View</div>
+          </div>
         </div>
       </div>
     </div>
