@@ -8,9 +8,51 @@
     "start": "next start"
   },
   "dependencies": {
+    "@svgr/webpack": "^5.5.0",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
     "aos": "^2.3.4",
+    "babel-plugin-styled-components": "^1.12.0",
+    "bootstrap": "^4.6.0",
+    "ethers": "^5.0.32",
     "next": "10.0.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-blockies": "^1.4.1",
+    "react-dom": "17.0.1",
+    "react-feather": "^2.0.9",
+    "reactstrap": "^8.9.0",
+    "styled-components": "^5.2.1"
+  },
+  "babel": {
+    "env": {
+      "development": {
+        "presets": [
+          "next/babel"
+        ],
+        "plugins": [
+          [
+            "styled-components",
+            {
+              "ssr": true,
+              "displayName": true
+            }
+          ]
+        ]
+      },
+      "production": {
+        "presets": [
+          "next/babel"
+        ],
+        "plugins": [
+          [
+            "styled-components",
+            {
+              "ssr": true,
+              "displayName": false
+            }
+          ]
+        ]
+      }
+    }
   }
 }
