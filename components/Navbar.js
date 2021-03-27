@@ -1,11 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react"
+import React, { useState, useCallback, useEffect, useContext } from "react"
 import styled from "styled-components"
 import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Container as RawContainer,
-  NavItem,
   Modal,
   ModalHeader,
   ModalBody,
@@ -25,6 +24,7 @@ import { useWeb3React } from "@web3-react/core"
 import useEagerConnect from "../hooks/useEagerConnect"
 import useInactiveListener from "../hooks/useInactiveListener"
 import { useToasts } from "../hooks/useToasts"
+import { ContractsContext } from "../hooks/useContracts"
 import { shortAddress } from "../utils"
 
 import { injected } from "../connectors/connectors"
@@ -122,6 +122,7 @@ const Main = () => {
     active,
     error,
   } = context
+  const { GANGPortToken } = useContext(ContractsContext)
 
   // handle logic to recognize the connector currently being activated
   const [activatingConnector, setActivatingConnector] = useState()
@@ -223,8 +224,14 @@ const Main = () => {
                     <h6 style={{ color: "#fff", margin: 0, marginLeft: 12 }}>
                       {shortAddress(account)}
                     </h6>
+                    <h6 style={{ color: "#fff", margin: 0, marginLeft: 12 }}>
+                      {GANGPortToken.balance}
+                    </h6>
+                    <h6 style={{ color: "#fff", margin: 0, marginLeft: 12 }}>
+                      {GANGPortToken.symbol}
+                    </h6>
                   </NavSelect>
-                  <DropdownMenu left>
+                  <DropdownMenu left='true'>
                     <DropdownItem disabled>
                       <div className='font-small-3'>
                         {shortAddress(account)}

@@ -24,11 +24,12 @@ export const useERC20 = (chainId, account, library, tick) => {
   const [balance, setBalance] = useState("0")
   const [decimals, setDecimals] = useState()
   const [symbol, setSymbol] = useState("--")
+  const [totalSupply, setTotalSupply] = useState("0")
 
   const getBalance = useCallback(async () => {
     try {
       const balance = await erc20Contract.balanceOf(account)
-      return Number(ethers.utils.formatEther(balance)).toLocaleString()
+      return Number(balance).toString()
     } catch (e) {
       return "0"
     }
@@ -68,11 +69,29 @@ export const useERC20 = (chainId, account, library, tick) => {
     [erc20Contract, account]
   )
 
+  const getTotalsSupply = useCallback(async () => {
+    try {
+      const totalSupply = await erc20Contract.totalSupply()
+      return Number(totalSupply)
+    } catch (e) {
+      return 0
+    }
+  }, [erc20Contract, account])
+
   useEffect(() => {
     erc20Contract && getBalance().then(setBalance)
     erc20Contract && getDecimals().then(setDecimals)
     erc20Contract && getSymbol().then(setSymbol)
-  }, [account, getBalance, getDecimals, getSymbol, erc20Contract, tick])
+    erc20Contract && getTotalsSupply().then(setTotalSupply)
+  }, [
+    account,
+    getBalance,
+    getDecimals,
+    getSymbol,
+    getTotalsSupply,
+    erc20Contract,
+    tick,
+  ])
 
   return {
     balance,
@@ -81,5 +100,6 @@ export const useERC20 = (chainId, account, library, tick) => {
     address,
     symbol,
     allowance,
+    totalSupply,
   }
 }

@@ -64,7 +64,11 @@ export default function AboutMe() {
             className={styles.pair}
           >
             <h3>Github:</h3>
-            <a href='https://github.com/tesol2y090' target='_blank'>
+            <a
+              style={{ textDecoration: "none", color: "inherit" }}
+              href='https://github.com/tesol2y090'
+              target='_blank'
+            >
               <p>https://github.com/tesol2y090</p>
             </a>
           </div>

@@ -17,10 +17,16 @@ import { CONTRACTS } from "../contracts/contracts"
 export const ContractsContext = createContext({})
 
 const Provider = ({ children }) => {
+  const [tick, setTick] = useState(0)
   const context = useWeb3React()
   const { chainId, account, active, error, library } = context
+  const GANGPortToken = useERC20(chainId, account, library, tick)
 
-  const contractsContext = useMemo(() => ({}), [])
+  const increaseTick = useCallback(() => {
+    setTick(tick + 1)
+  }, [tick])
+
+  const contractsContext = useMemo(() => ({ GANGPortToken }), [GANGPortToken])
 
   return (
     <ContractsContext.Provider value={contractsContext}>
