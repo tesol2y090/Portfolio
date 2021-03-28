@@ -12,6 +12,7 @@ import {
   UnsupportedChainIdError,
 } from "@web3-react/core"
 import { useERC20 } from "./useERC20"
+import { useMessagePool } from "./useMessagePool"
 import { CONTRACTS } from "../contracts/contracts"
 
 export const ContractsContext = createContext({})
@@ -26,7 +27,23 @@ const Provider = ({ children }) => {
     setTick(tick + 1)
   }, [tick])
 
-  const contractsContext = useMemo(() => ({ GANGPortToken }), [GANGPortToken])
+  let messagesPoolAddress
+  switch (chainId) {
+    case 42:
+      messagesPoolAddress = CONTRACTS.KOVAN.MessagePool
+      break
+  }
+  const MessagePool = useMessagePool(
+    messagesPoolAddress,
+    account,
+    library,
+    tick
+  )
+
+  const contractsContext = useMemo(
+    () => ({ GANGPortToken, MessagePool, increaseTick }),
+    [GANGPortToken, MessagePool, increaseTick]
+  )
 
   return (
     <ContractsContext.Provider value={contractsContext}>

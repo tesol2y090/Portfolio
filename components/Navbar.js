@@ -17,6 +17,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
+  Input,
 } from "reactstrap"
 import { LogOut } from "react-feather"
 import Blockies from "react-blockies"
@@ -25,7 +26,7 @@ import useEagerConnect from "../hooks/useEagerConnect"
 import useInactiveListener from "../hooks/useInactiveListener"
 import { useToasts } from "../hooks/useToasts"
 import { ContractsContext } from "../hooks/useContracts"
-import { shortAddress } from "../utils"
+import { shortAddress, processingToast } from "../utils"
 
 import { injected } from "../connectors/connectors"
 
@@ -108,9 +109,11 @@ const Connectors = [
 
 const Main = () => {
   const [isOpen, setOpen] = useState(false)
+  const [writeMessageModal, setWriteMessageModal] = useState(false)
   const [loginModal, setLoginModal] = useState(false)
+  const [message, setMessage] = useState("")
   const context = useWeb3React()
-  const { add } = useToasts()
+  const { add, update } = useToasts()
   const [locked, setLocked] = useState(false)
   const {
     connector,
@@ -122,7 +125,9 @@ const Main = () => {
     active,
     error,
   } = context
-  const { GANGPortToken } = useContext(ContractsContext)
+  const { GANGPortToken, MessagePool, increaseTick } = useContext(
+    ContractsContext
+  )
 
   // handle logic to recognize the connector currently being activated
   const [activatingConnector, setActivatingConnector] = useState()
@@ -140,6 +145,46 @@ const Main = () => {
   const toggleModal = useCallback(() => {
     setLoginModal(!loginModal)
   }, [loginModal])
+
+  const toggleWriteMessageModal = useCallback(() => {
+    setWriteMessageModal(!writeMessageModal)
+  }, [writeMessageModal])
+
+  const onMessageChange = (event) => {
+    setMessage(event.target.value)
+  }
+
+  const onAddMessage = useCallback(async () => {
+    const tx = await MessagePool.postMessage(message)
+    setWriteMessageModal(false)
+    setMessage("")
+    const id = add(
+      processingToast(
+        "Posting Message",
+        "Your transaction is being processed",
+        true,
+        tx.hash,
+        chainId
+      )
+    )
+    try {
+      await tx.wait()
+      update({
+        id,
+        ...processingToast(
+          "Added",
+          "Your transaction is completed",
+          false,
+          tx.hash,
+          chainId
+        ),
+      })
+      increaseTick()
+    } catch (e) {
+      alert("out of gas error - please try again")
+      console.log(e)
+    }
+  }, [MessagePool])
 
   useEffect(() => {
     if (error && error.name === "UnsupportedChainIdError" && !locked) {
@@ -183,6 +228,28 @@ const Main = () => {
           </Button>
         </ModalFooter>
       </Modal>
+      <Modal isOpen={writeMessageModal} toggle={toggleWriteMessageModal}>
+        <ModalHeader toggle={toggleWriteMessageModal}>
+          Write message to blockchain
+        </ModalHeader>
+        <ModalBody>
+          <Input
+            value={message}
+            onChange={onMessageChange}
+            type='textarea'
+            name='text'
+            id='exampleText'
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button color='success' onClick={onAddMessage}>
+            Post
+          </Button>
+          <Button color='secondary' onClick={toggleWriteMessageModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
       <Wrapper color='transparent' light expand='md'>
         <Container>
           <NavbarBrand>
@@ -215,7 +282,7 @@ const Main = () => {
                   Connect Wallet
                 </Button>
               ) : (
-                <UncontrolledDropdown className='pr-1'>
+                <UncontrolledDropdown className='pr-1 d-flex'>
                   <NavSelect nav>
                     <Blockies
                       seed={account}
@@ -231,6 +298,13 @@ const Main = () => {
                       {GANGPortToken.symbol}
                     </h6>
                   </NavSelect>
+                  <Button
+                    onClick={toggleWriteMessageModal}
+                    color='primary'
+                    disabled={MessagePool.isWriteMessage}
+                  >
+                    Add message
+                  </Button>
                   <DropdownMenu left='true'>
                     <DropdownItem disabled>
                       <div className='font-small-3'>
