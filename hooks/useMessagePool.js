@@ -39,15 +39,28 @@ export const useMessagePool = (messagesPoolAddress, account, library, tick) => {
     [messagesPoolContract, account]
   )
 
+  const getAllMessages = useCallback(async () => {
+    const messages = []
+    for (let i = 0; i < messagesLength; i++) {
+      const message = await messagesPoolContract.messagesPool(i)
+      messages.push(message)
+    }
+    return messages
+  })
+
   useEffect(() => {
     messagesPoolContract && getMessagesLength().then(setMessagesLength)
     messagesPoolContract && getIsWriteMessage().then(setIsWriteMessage)
-  }, [messagesPoolContract, account, tick])
+    messagesPoolContract &&
+      messagesLength &&
+      getAllMessages().then(setAllMessages)
+  }, [messagesPoolContract, account, tick, messagesLength])
 
   return {
     messagesPoolAddress,
     messagesLength,
     postMessage,
+    allMessages,
     isWriteMessage,
   }
 }

@@ -154,44 +154,47 @@ const Main = () => {
     setMessage(event.target.value)
   }
 
-  const onAddMessage = useCallback(async () => {
-    const tx = await MessagePool.postMessage(message)
-    setWriteMessageModal(false)
-    setMessage("")
-    const id = add(
-      processingToast(
-        "Posting Message",
-        "Your transaction is being processed",
-        true,
-        tx.hash,
-        chainId
-      )
-    )
-    try {
-      await tx.wait()
-      update({
-        id,
-        ...processingToast(
-          "Added",
-          "Your transaction is completed",
-          false,
+  const onAddMessage = useCallback(
+    async (message) => {
+      const tx = await MessagePool.postMessage(message)
+      setWriteMessageModal(false)
+      setMessage("")
+      const id = add(
+        processingToast(
+          "Posting Message",
+          "Your transaction is being processed",
+          true,
           tx.hash,
           chainId
-        ),
-      })
-      increaseTick()
-    } catch (e) {
-      alert("out of gas error - please try again")
-      console.log(e)
-    }
-  }, [MessagePool])
+        )
+      )
+      try {
+        await tx.wait()
+        update({
+          id,
+          ...processingToast(
+            "Added",
+            "Your transaction is completed",
+            false,
+            tx.hash,
+            chainId
+          ),
+        })
+        increaseTick()
+      } catch (e) {
+        alert("out of gas error - please try again")
+        console.log(e)
+      }
+    },
+    [MessagePool]
+  )
 
   useEffect(() => {
     if (error && error.name === "UnsupportedChainIdError" && !locked) {
       setLocked(true)
       add({
         title: "Unsupported Network",
-        content: <div>Please switch to BSC Testnet or Kovan network</div>,
+        content: <div>Please switch Kovan network</div>,
       })
     }
   }, [error, locked])
@@ -242,7 +245,7 @@ const Main = () => {
           />
         </ModalBody>
         <ModalFooter>
-          <Button color='success' onClick={onAddMessage}>
+          <Button color='success' onClick={() => onAddMessage(message)}>
             Post
           </Button>
           <Button color='secondary' onClick={toggleWriteMessageModal}>

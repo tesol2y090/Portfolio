@@ -6,11 +6,7 @@ import React, {
   useState,
   useCallback,
 } from "react"
-import {
-  Web3ReactProvider,
-  useWeb3React,
-  UnsupportedChainIdError,
-} from "@web3-react/core"
+import { useWeb3React } from "@web3-react/core"
 import { useERC20 } from "./useERC20"
 import { useMessagePool } from "./useMessagePool"
 import { CONTRACTS } from "../contracts/contracts"
