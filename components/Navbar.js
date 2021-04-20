@@ -107,7 +107,7 @@ const Connectors = [
   },
 ]
 
-const Navbar = () => {
+export default function Navbar() {
   const [isOpen, setOpen] = useState(false)
   const [writeMessageModal, setWriteMessageModal] = useState(false)
   const [loginModal, setLoginModal] = useState(false)
@@ -334,5 +334,3 @@ const Navbar = () => {
     </>
   )
 }
-
-export default Navbar
