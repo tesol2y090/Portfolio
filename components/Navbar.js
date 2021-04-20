@@ -13,7 +13,7 @@ import {
   Button,
   Badge,
   Collapse,
-  Navbar,
+  Navbar as NavbarStyle,
   NavbarToggler,
   NavbarBrand,
   Nav,
@@ -30,7 +30,7 @@ import { shortAddress, processingToast } from "../utils"
 
 import { injected } from "../connectors/connectors"
 
-const Wrapper = styled(Navbar)`
+const Wrapper = styled(NavbarStyle)`
   min-height: 80px;
   position: absolute;
   top: 0;
