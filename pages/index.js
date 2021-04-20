@@ -5,12 +5,12 @@ import { ethers } from "ethers"
 import ContractsProvider from "../hooks/useContracts"
 import ToastProvider from "../hooks/useToasts"
 
-import Header from "../components/Header"
-import AboutMe from "../components/AboutMe"
-import Skills from "../components/Skills"
-import Experiences from "../components/Experiences"
-import Project from "../components/Project"
-import Navbar from "../components/Navbar"
+import Header from "../components/Header.js"
+import AboutMe from "../components/AboutMe.js"
+import Skills from "../components/Skills.js"
+import Experiences from "../components/Experiences.js"
+import Project from "../components/Project.js"
+import Navbar from "../components/Navbar.js"
 
 export default function Home() {
   const getLibrary = (provider) => {
